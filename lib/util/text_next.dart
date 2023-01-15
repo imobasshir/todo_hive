@@ -14,7 +14,7 @@ class TextNext extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Text(
           taskName,
-          textScaleFactor: 1.1,
+          textScaleFactor: 1.2,
         ),
       ),
     );

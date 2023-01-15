@@ -1,6 +1,6 @@
+import 'package:crud_hive/provider/service.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import '../data/database.dart';
+import 'package:provider/provider.dart';
 import '../util/dialog_box.dart';
 import '../util/todo_tile.dart';
 
@@ -12,64 +12,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // reference the hive box
-  final _myBox = Hive.box('mybox');
-  ToDoDataBase db = ToDoDataBase();
+  final controller = TextEditingController();
 
-  @override
-  void initState() {
-    // if this is the 1st time ever openin the app, then create default data
-    if (_myBox.get("TODOLIST") == null) {
-      db.createInitialData();
-    } else {
-      // there already exists data
-      db.loadData();
-    }
-
-    super.initState();
-  }
-
-  // text controller
-  final _controller = TextEditingController();
-
-  // checkbox was tapped
-  void checkBoxChanged(bool? value, int index) {
-    setState(() {
-      db.toDoList[index][1] = !db.toDoList[index][1];
-    });
-    db.updateDataBase();
-  }
-
-  // save new task
   void saveNewTask() {
-    setState(() {
-      db.toDoList.add([_controller.text, false]);
-      _controller.clear();
-    });
+    Provider.of<Service>(context, listen: false).saveNewTask(controller.text);
+    controller.clear();
     Navigator.of(context).pop();
-    db.updateDataBase();
-  }
-
-  // create a new task
-  void createNewTask() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return DialogBox(
-          controller: _controller,
-          onSave: saveNewTask,
-          onCancel: () => Navigator.of(context).pop(),
-        );
-      },
-    );
-  }
-
-  // delete task
-  void deleteTask(int index) {
-    setState(() {
-      db.toDoList.removeAt(index);
-    });
-    db.updateDataBase();
   }
 
   @override
@@ -82,17 +30,33 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: createNewTask,
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return DialogBox(
+                controller: controller,
+                onSave: saveNewTask,
+                onCancel: () => Navigator.of(context).pop(),
+              );
+            },
+          );
+        },
         child: const Icon(Icons.add),
       ),
-      body: ListView.builder(
-        itemCount: db.toDoList.length,
-        itemBuilder: (context, index) {
-          return ToDoTile(
-            taskName: db.toDoList[index][0],
-            taskCompleted: db.toDoList[index][1],
-            onChanged: (value) => checkBoxChanged(value, index),
-            deleteFunction: (context) => deleteTask(index),
+      // floatingActionButton:
+      body: Consumer<Service>(
+        builder: (context, db, child) {
+          return ListView.builder(
+            itemCount: db.toDoList.length,
+            itemBuilder: (context, index) {
+              return ToDoTile(
+                taskName: db.toDoList[index][0],
+                taskCompleted: db.toDoList[index][1],
+                onChanged: (value) => db.checkBoxChanged(value, index),
+                deleteFunction: (context) => db.deleteTask(index),
+              );
+            },
           );
         },
       ),

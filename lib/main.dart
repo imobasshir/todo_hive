@@ -1,6 +1,8 @@
 import 'package:crud_hive/pages/home_page.dart';
+import 'package:crud_hive/provider/service.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   // init the hive
@@ -15,13 +17,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.lightGreen,
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (_) => Service(context),
+      child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.lightGreen,
+          useMaterial3: true,
+        ),
+        debugShowCheckedModeBanner: false,
+        home: const HomePage(),
       ),
-      debugShowCheckedModeBanner: false,
-      home: const HomePage(),
     );
   }
 }
