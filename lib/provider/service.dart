@@ -42,6 +42,7 @@ class Service extends ChangeNotifier {
   // update the database
   void updateDataBase() {
     _myBox.put("TODOLIST", toDoList);
+    notifyListeners();
   }
 
   // save new task
@@ -61,6 +62,13 @@ class Service extends ChangeNotifier {
   // delete task
   void deleteTask(int index) {
     _toDoList.removeAt(index);
+    notifyListeners();
+    updateDataBase();
+  }
+
+  // update task
+  void updateTask(int index, String text) {
+    _toDoList[index][0] = text;
     notifyListeners();
     updateDataBase();
   }

@@ -7,6 +7,7 @@ class ToDoTile extends StatelessWidget {
   final bool taskCompleted;
   final Function(bool?)? onChanged;
   final Function(BuildContext)? deleteFunction;
+  final int index;
 
   const ToDoTile({
     super.key,
@@ -14,6 +15,7 @@ class ToDoTile extends StatelessWidget {
     required this.taskCompleted,
     required this.onChanged,
     required this.deleteFunction,
+    required this.index,
   });
 
   @override
@@ -51,7 +53,10 @@ class ToDoTile extends StatelessWidget {
                 child: InkWell(
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => NextPage(taskName: taskName),
+                      builder: (context) => NextPage(
+                        taskName: taskName,
+                        index: index,
+                      ),
                     ),
                   ),
                   child: Text(
