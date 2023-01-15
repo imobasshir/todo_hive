@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'my_button.dart';
 
 class DialogBox extends StatelessWidget {
   final TextEditingController controller;
@@ -16,7 +15,7 @@ class DialogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.yellow[300],
+      backgroundColor: Colors.grey[300],
       content: SizedBox(
         height: 120,
         child: Column(
@@ -30,15 +29,28 @@ class DialogBox extends StatelessWidget {
                 hintText: "Add a new task",
               ),
             ),
+            const SizedBox(height: 8),
             // buttons -> save + cancel
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 // save button
-                MyButton(text: "Save", onPressed: onSave),
+                ElevatedButton(
+                  onPressed: onSave,
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(color: Colors.black87),
+                  ),
+                ),
                 const SizedBox(width: 8),
                 // cancel button
-                MyButton(text: "Cancel", onPressed: onCancel),
+                ElevatedButton(
+                  onPressed: onCancel,
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.black87),
+                  ),
+                ),
               ],
             ),
           ],

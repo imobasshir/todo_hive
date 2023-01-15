@@ -1,3 +1,4 @@
+import 'package:crud_hive/util/next_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -34,7 +35,7 @@ class ToDoTile extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: Colors.yellow,
+            color: Colors.lightGreen,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
@@ -46,12 +47,22 @@ class ToDoTile extends StatelessWidget {
                 activeColor: Colors.black,
               ),
               // task name
-              Text(
-                taskName,
-                style: TextStyle(
-                  decoration: taskCompleted
-                      ? TextDecoration.lineThrough
-                      : TextDecoration.none,
+              Expanded(
+                child: InkWell(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => NextPage(taskName: taskName),
+                    ),
+                  ),
+                  child: Text(
+                    taskName,
+                    style: TextStyle(
+                      decoration: taskCompleted
+                          ? TextDecoration.lineThrough
+                          : TextDecoration.none,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ],
