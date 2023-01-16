@@ -48,28 +48,28 @@ class Service extends ChangeNotifier {
   // save new task
   void saveNewTask(String text) {
     _toDoList.add([text, false]);
-    notifyListeners();
+    // notifyListeners();
     updateDataBase();
   }
 
   // checkbox was tapped
   void checkBoxChanged(bool? value, int index) {
     _toDoList[index][1] = !_toDoList[index][1];
-    notifyListeners();
+    // notifyListeners();
     updateDataBase();
   }
 
   // delete task
   void deleteTask(int index) {
     _toDoList.removeAt(index);
-    notifyListeners();
+    // notifyListeners();
     updateDataBase();
   }
 
   // update task
   void updateTask(int index, String text) {
     _toDoList[index][0] = text;
-    notifyListeners();
+    // notifyListeners();
     updateDataBase();
   }
 }
