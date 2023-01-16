@@ -41,7 +41,7 @@ class Service extends ChangeNotifier {
 
   // update the database
   void updateDataBase() {
-    _myBox.put("TODOLIST", toDoList);
+    _myBox.put("TODOLIST", _toDoList);
     notifyListeners();
   }
 
